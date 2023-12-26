@@ -1,7 +1,7 @@
 {
   "name": "sails-content",
   "version": "0.0.0",
-  "description": "Sails/Waterline adapter for Content",
+  "description": "Sails/Waterline adapter for file-based content.",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
