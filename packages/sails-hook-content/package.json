@@ -1,11 +1,15 @@
 {
   "name": "sails-hook-content",
   "version": "0.0.0",
-  "description": "Sails hook for file-based markdown CMS",
+  "description": "Sails hook for Sails Content",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kelvin Omereshone <kelvin@sailscasts.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "sails": {
+    "isHook": true,
+    "hookName": "content"
+  }
 }
