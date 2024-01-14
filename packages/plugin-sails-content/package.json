@@ -1,0 +1,28 @@
+{
+  "name": "plugin-sails-content",
+  "version": "0.0.0",
+  "description": "Sails Content plugin for Rsbuild",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Rsbuild",
+    "Sails",
+    "Content",
+    "Sails",
+    "Markdown"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sailscastshq/sails-content.git",
+    "directory": "packages/plugin-sails-content"
+  },
+  "author": "Kelvin Omereshone <kelvin@sailscasts.com>",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "gray-matter": "^4.0.3",
+    "showdown": "^2.1.0"
+  }
+}
