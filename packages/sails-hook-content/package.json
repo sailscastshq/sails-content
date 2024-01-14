@@ -2,7 +2,7 @@
   "name": "sails-hook-content",
   "version": "0.0.0",
   "description": "Sails hook for Sails Content",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,5 +11,8 @@
   "sails": {
     "isHook": true,
     "hookName": "content"
+  },
+  "dependencies": {
+    "plugin-sails-content": "^0.0.0"
   }
 }
