@@ -13,6 +13,7 @@ async function generateContent(config) {
 
     if (fileStats.isDirectory()) {
       await generateContent({
+        ...config,
         inputDir: filePath,
         outputDir: path.join(config.outputDir, file)
       })
