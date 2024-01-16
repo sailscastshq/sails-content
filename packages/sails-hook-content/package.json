@@ -13,6 +13,6 @@
     "hookName": "content"
   },
   "dependencies": {
-    "plugin-sails-content": "^0.0.2"
+    "plugin-sails-content": "^0.0.4"
   }
 }
