@@ -1,6 +1,6 @@
 {
   "name": "plugin-sails-content",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Sails Content plugin for Rsbuild",
   "main": "lib/index.js",
   "scripts": {
