@@ -1,12 +1,23 @@
 {
   "name": "sails-content",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Sails/Waterline adapter for file-based content.",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kelvin Omereshone <kelvin@sailscasts.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "waterlineAdapter": {
+    "interfaces": [
+      "semantic",
+      "queryable"
+    ],
+    "features": [
+      "unique"
+    ]
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3"
+  }
 }
