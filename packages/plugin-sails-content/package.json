@@ -1,6 +1,6 @@
 {
   "name": "plugin-sails-content",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Sails Content plugin for Rsbuild",
   "main": "lib/index.js",
   "scripts": {
@@ -21,7 +21,6 @@
   "author": "Kelvin Omereshone <kelvin@sailscasts.com>",
   "license": "MIT",
   "dependencies": {
-    "ejs": "^3.1.9",
     "gray-matter": "^4.0.3",
     "showdown": "^2.1.0"
   }
