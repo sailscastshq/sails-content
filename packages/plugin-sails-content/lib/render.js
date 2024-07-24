@@ -16,8 +16,7 @@ async function render(sails, mdFile, layout) {
   const renderedHtml = await sails.renderView(layoutContent, {
     layout: false,
     data,
-    content: htmlContent,
-    ...sails.config.views.locals
+    content: htmlContent
   })
 
   return { data, renderedHtml }
