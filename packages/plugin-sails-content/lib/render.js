@@ -1,9 +1,8 @@
 const fs = require('fs/promises')
 const matter = require('gray-matter')
 const showdown = require('showdown')
-const ejs = require('ejs')
 
-async function render(mdFile, layout) {
+async function render(sails, mdFile, layout) {
   const fileContent = await fs.readFile(mdFile, { encoding: 'utf8' })
   const { data, content } = matter(fileContent)
 
@@ -14,7 +13,11 @@ async function render(mdFile, layout) {
 
   const layoutContent = await fs.readFile(layout, { encoding: 'utf8' })
 
-  const renderedHtml = ejs.render(layoutContent, { data, content: htmlContent })
+  const renderedHtml = await sails.renderView(layoutContent, {
+    layout: false,
+    data,
+    content: htmlContent
+  })
 
   return { data, renderedHtml }
 }

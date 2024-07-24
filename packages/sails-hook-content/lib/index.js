@@ -19,9 +19,7 @@ module.exports = function defineSailsContentHook(sails) {
     initialize: async function () {
       sails.log.info('Initializing custom hook (`sails-content`)')
       if (sails.config.content.output == 'static') {
-        sails.config.shipwright.build.plugins.push(
-          pluginSailsContent(sails.config.content)
-        )
+        sails.config.shipwright.build.plugins.push(pluginSailsContent(sails))
       }
     }
   }

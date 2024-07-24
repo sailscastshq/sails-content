@@ -3,7 +3,8 @@ const path = require('path')
 const render = require('./render')
 const writeHtmlToOutput = require('./write-html-to-output')
 
-async function generateContent(config) {
+async function generateContent(sails) {
+  const config = sails.config.content
   config.outputDir = config.outputDir ? config.outputDir : '.tmp/public'
   const files = await fs.readdir(config.inputDir)
 
@@ -18,13 +19,14 @@ async function generateContent(config) {
         outputDir: path.join(config.outputDir, file)
       })
     } else if (fileStats.isFile() && file.toLowerCase().endsWith('.md')) {
-      const { data, renderedHtml } = await render(filePath, config.layout)
+      const { renderedHtml } = await render(sails, filePath, config.layout)
+
       const outputFilePath = await writeHtmlToOutput(
         renderedHtml,
         file,
         config.inputDir
       )
-      // @ts-ignore
+
       sails.log.verbose(
         `[sails:content] Processed ${filePath} -> ${outputFilePath}`
       )
