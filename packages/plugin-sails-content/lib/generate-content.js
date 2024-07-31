@@ -3,9 +3,7 @@ const path = require('path')
 const render = require('./render')
 const writeHtmlToOutput = require('./write-html-to-output')
 
-async function generateContent(sails) {
-  const config = sails.config.content
-  config.outputDir = config.outputDir ? config.outputDir : '.tmp/public'
+async function generateContent(config) {
   const files = await fs.readdir(config.inputDir)
 
   for (const file of files) {
@@ -19,7 +17,7 @@ async function generateContent(sails) {
         outputDir: path.join(config.outputDir, file)
       })
     } else if (fileStats.isFile() && file.toLowerCase().endsWith('.md')) {
-      const { renderedHtml } = await render(sails, filePath, config.layout)
+      const { renderedHtml } = await render(filePath, config)
 
       const outputFilePath = await writeHtmlToOutput(
         renderedHtml,
