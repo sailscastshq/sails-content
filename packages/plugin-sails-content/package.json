@@ -21,6 +21,7 @@
   "author": "Kelvin Omereshone <kelvin@sailscasts.com>",
   "license": "MIT",
   "dependencies": {
+    "ejs": "^3.1.10",
     "gray-matter": "^4.0.3",
     "showdown": "^2.1.0"
   }

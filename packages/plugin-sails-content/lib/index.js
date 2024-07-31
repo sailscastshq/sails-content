@@ -1,14 +1,12 @@
 const generateContent = require('./generate-content')
-module.exports = function pluginSailsContent(sails) {
+module.exports = function pluginSailsContent(config) {
   return {
     name: 'sails:content',
     setup(api) {
-      api.onDevCompileDone(async function () {
-        await generateContent(sails)
-      })
-      api.onAfterBuild(async function () {
-        await generateContent(sails)
-      })
+      const runGenerateContent = async () => await generateContent(config)
+
+      api.onDevCompileDone(runGenerateContent)
+      api.onAfterBuild(runGenerateContent)
     }
   }
 }
