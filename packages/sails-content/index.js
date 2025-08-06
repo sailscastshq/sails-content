@@ -166,6 +166,43 @@ module.exports = (function sailsContent() {
 
       return cb(undefined, records.length)
     },
+    create: function create(datastoreName, query, cb) {
+      // No-op: sails-content is primarily a read-only adapter
+      // Only return data if fetch is enabled
+      if (query.meta && query.meta.fetch) {
+        return cb(undefined, {})
+      }
+      return cb()
+    },
+    createEach: function createEach(datastoreName, query, cb) {
+      // No-op: sails-content is primarily a read-only adapter
+      // Only return data if fetch is enabled
+      if (query.meta && query.meta.fetch) {
+        return cb(undefined, [])
+      }
+      return cb()
+    },
+    update: function update(datastoreName, query, cb) {
+      // No-op: sails-content is primarily a read-only adapter
+      // Only return data if fetch is enabled
+      if (query.meta && query.meta.fetch) {
+        return cb(undefined, [])
+      }
+      return cb()
+    },
+    destroy: function destroy(datastoreName, query, cb) {
+      // No-op: sails-content is primarily a read-only adapter
+      // Only return data if fetch is enabled
+      if (query.meta && query.meta.fetch) {
+        return cb(undefined, [])
+      }
+      return cb()
+    },
+    setSequence: function setSequence(datastoreName, tableName, sequence, cb) {
+      // No-op: sails-content doesn't support auto-increment sequences
+      // Content files use file-based identifiers, not numeric sequences
+      return cb()
+    },
     define: function define(datastoreName, tableName, definition, cb) {
       return cb()
     },
