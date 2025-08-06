@@ -35,7 +35,16 @@ module.exports = (function sailsContent() {
     find: async function find(datastoreName, query, cb) {
       const datastore = datastores[datastoreName]
       const contentDir = path.join(datastore.config.dir, query.using)
-      const files = await fs.readdir(contentDir)
+      let files
+      try {
+        files = await fs.readdir(contentDir)
+      } catch (error) {
+        if (error.code === 'ENOENT') {
+          // Directory doesn't exist, return empty results
+          return cb(undefined, [])
+        }
+        throw error
+      }
       let records = []
       let id = 1
       for (const file of files) {
@@ -49,43 +58,90 @@ module.exports = (function sailsContent() {
         records.push({ ...record })
       }
 
-      records = records.map((item) =>
-        query.criteria.select.reduce((acc, key) => {
+      records = records.map((item) => {
+        // If no select criteria, return the entire item (minus omit fields)
+        if (!query.criteria || !query.criteria.select) {
+          if (query.criteria && query.criteria.omit) {
+            const filteredItem = { ...item }
+            query.criteria.omit.forEach((key) => {
+              delete filteredItem[key]
+            })
+            return filteredItem
+          }
+          return item
+        }
+
+        // Apply select criteria
+        return query.criteria.select.reduce((acc, key) => {
           if (item.hasOwnProperty(key) && !query.criteria.omit?.includes(key)) {
             acc[key] = item[key]
           }
           return acc
         }, {})
-      )
+      })
 
       return cb(undefined, records)
     },
     findOne: async function find(datastoreName, query, cb) {
       const datastore = datastores[datastoreName]
       const contentDir = path.join(datastore.config.dir, query.using)
-      const content = await fs.readFile(
-        path.join(contentDir, query.slug || query),
-        {
-          encoding: 'utf8'
+      let content
+      try {
+        content = await fs.readFile(
+          path.join(contentDir, query.slug || query),
+          {
+            encoding: 'utf8'
+          }
+        )
+      } catch (error) {
+        if (error.code === 'ENOENT') {
+          // File or directory doesn't exist, return undefined
+          return cb(undefined, undefined)
         }
-      )
+        throw error
+      }
       const id = 1
       let { data: record, content: mdContent } = matter(content)
       record.id = id
       record.slug = path.parse(content).name
       record.content = mdContent
-      record = query.criteria.select.reduce((acc, key) => {
-        if (record.hasOwnProperty(key) && !query.criteria.omit?.includes(key)) {
-          acc[key] = record[key]
+      // If no select criteria, return the entire record (minus omit fields)
+      if (!query.criteria || !query.criteria.select) {
+        if (query.criteria && query.criteria.omit) {
+          const filteredRecord = { ...record }
+          query.criteria.omit.forEach((key) => {
+            delete filteredRecord[key]
+          })
+          record = filteredRecord
         }
-        return acc
-      }, {})
+        // Otherwise return the full record as-is
+      } else {
+        // Apply select criteria
+        record = query.criteria.select.reduce((acc, key) => {
+          if (
+            record.hasOwnProperty(key) &&
+            !query.criteria.omit?.includes(key)
+          ) {
+            acc[key] = record[key]
+          }
+          return acc
+        }, {})
+      }
       return cb(undefined, record)
     },
     count: async function count(datastoreName, query, cb) {
       const datastore = datastores[datastoreName]
       const contentDir = path.join(datastore.config.dir, query.using)
-      const files = await fs.readdir(contentDir)
+      let files
+      try {
+        files = await fs.readdir(contentDir)
+      } catch (error) {
+        if (error.code === 'ENOENT') {
+          // Directory doesn't exist, return 0 count
+          return cb(undefined, 0)
+        }
+        throw error
+      }
       let records = []
       let id = 1
       for (const file of files) {
