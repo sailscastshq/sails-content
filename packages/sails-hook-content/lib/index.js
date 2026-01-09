@@ -24,8 +24,8 @@ module.exports = function defineSailsContentHook(sails) {
         sails.config.content.locals = sails.config.views.locals || {}
 
         sails.config.content.locals.shipwright = {
-          scripts: sails.hooks.shipwright.generateScripts,
-          styles: sails.hooks.shipwright.generateStyles
+          scripts: sails.hooks.shipwright.scripts,
+          styles: sails.hooks.shipwright.styles
         }
 
         sails.config.shipwright.build.plugins.push(
