@@ -21,16 +21,12 @@ module.exports = function defineSailsContentHook(sails) {
       sails.log.info('Initializing custom hook (`sails-content`)')
 
       if (sails.config.content.output == 'static') {
-        sails.config.content.locals = sails.config.views.locals || {}
-
-        sails.config.content.locals.shipwright = {
-          scripts: sails.hooks.shipwright.generateScripts,
-          styles: sails.hooks.shipwright.generateStyles
-        }
-
-        sails.config.shipwright.build.plugins.push(
-          pluginSailsContent(sails.config.content)
-        )
+        sails.on('hook:shipwright:loaded', () => {
+          sails.config.content.locals = sails.config.views.locals || {}
+          sails.config.shipwright.build.plugins.push(
+            pluginSailsContent(sails.config.content)
+          )
+        })
       }
     }
   }
