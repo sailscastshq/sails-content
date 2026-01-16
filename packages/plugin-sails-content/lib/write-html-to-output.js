@@ -1,17 +1,17 @@
-const fs = require('fs/promises')
+const fs = require('fs')
 const path = require('path')
 
-async function writeHtmlToOutput(renderedHtml, mdFile, inputDir) {
+function writeHtmlToOutput(renderedHtml, mdFile, inputDir) {
   const outputDirName = path.basename(mdFile, path.extname(mdFile))
   const parentDirName = inputDir !== 'content' ? path.basename(inputDir) : ''
   const outputDirectory = parentDirName
     ? path.join('.tmp', 'public', parentDirName, outputDirName)
     : path.join('.tmp', 'public', outputDirName)
 
-  await fs.mkdir(outputDirectory, { recursive: true })
+  fs.mkdirSync(outputDirectory, { recursive: true })
 
   const outputFilePath = path.join(outputDirectory, 'index.html')
-  await fs.writeFile(outputFilePath, renderedHtml, 'utf-8')
+  fs.writeFileSync(outputFilePath, renderedHtml, 'utf8')
 
   return outputFilePath
 }
