@@ -1,11 +1,11 @@
-const fs = require('fs/promises')
+const fs = require('fs')
 const path = require('path')
 const matter = require('gray-matter')
 const showdown = require('showdown')
 const ejs = require('ejs')
 
-async function render(filePath, config) {
-  const fileContent = await fs.readFile(filePath, { encoding: 'utf8' })
+function render(filePath, config) {
+  const fileContent = fs.readFileSync(filePath, 'utf8')
   const { data, content } = matter(fileContent)
 
   const layout = data.layout || config.layout
@@ -14,12 +14,11 @@ async function render(filePath, config) {
   const converter = new showdown.Converter({ ghCompatibleHeaderId: true })
   const htmlContent = converter.makeHtml(content)
 
-  // Create a partial function that mimics Sails.js partial() behavior
+  // Partial function that mimics Sails.js partial() behavior
   const partial = (partialPath, locals = {}) => {
     const resolvedPath = path.resolve(layoutDir, partialPath)
-    const partialContent = require('fs').readFileSync(resolvedPath, 'utf8')
     return ejs.render(
-      partialContent,
+      fs.readFileSync(resolvedPath, 'utf8'),
       {
         ...config.locals,
         ...locals,
@@ -27,13 +26,11 @@ async function render(filePath, config) {
         content: htmlContent,
         partial
       },
-      {
-        filename: resolvedPath
-      }
+      { filename: resolvedPath }
     )
   }
 
-  const layoutContent = await fs.readFile(layout, { encoding: 'utf8' })
+  const layoutContent = fs.readFileSync(layout, 'utf8')
   const renderedHtml = ejs.render(
     layoutContent,
     {
@@ -42,9 +39,7 @@ async function render(filePath, config) {
       content: htmlContent,
       partial
     },
-    {
-      filename: layout
-    }
+    { filename: layout }
   )
 
   return { data, renderedHtml }
