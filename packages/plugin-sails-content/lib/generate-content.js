@@ -1,25 +1,25 @@
-const fs = require('fs').promises
+const fs = require('fs')
 const path = require('path')
 const render = require('./render')
 const writeHtmlToOutput = require('./write-html-to-output')
 
-async function generateContent(config) {
-  const files = await fs.readdir(config.inputDir)
+function generateContent(config) {
+  const files = fs.readdirSync(config.inputDir)
 
   for (const file of files) {
     const filePath = path.join(config.inputDir, file)
-    const fileStats = await fs.stat(filePath)
+    const fileStats = fs.statSync(filePath)
 
     if (fileStats.isDirectory()) {
-      await generateContent({
+      generateContent({
         ...config,
         inputDir: filePath,
         outputDir: path.join(config.outputDir, file)
       })
     } else if (fileStats.isFile() && file.toLowerCase().endsWith('.md')) {
-      const { renderedHtml } = await render(filePath, config)
+      const { renderedHtml } = render(filePath, config)
 
-      const outputFilePath = await writeHtmlToOutput(
+      const outputFilePath = writeHtmlToOutput(
         renderedHtml,
         file,
         config.inputDir
