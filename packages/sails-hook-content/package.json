@@ -1,6 +1,6 @@
 {
   "name": "sails-hook-content",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Sails hook for Sails Content",
   "main": "lib/index.js",
   "scripts": {
@@ -13,6 +13,6 @@
     "hookName": "content"
   },
   "dependencies": {
-    "plugin-sails-content": "^0.0.7"
+    "plugin-sails-content": "^0.1.0"
   }
 }
