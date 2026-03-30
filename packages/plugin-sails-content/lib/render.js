@@ -11,7 +11,15 @@ function render(filePath, config) {
   const layout = data.layout || config.layout
   const layoutDir = path.dirname(layout)
 
-  const converter = new showdown.Converter({ ghCompatibleHeaderId: true })
+  const converter = new showdown.Converter({
+    ghCompatibleHeaderId: true,
+    tables: true,
+    strikethrough: true,
+    simplifiedAutoLink: true,
+    excludeTrailingPunctuationFromURLs: true,
+    literalMidWordUnderscores: true,
+    backslashEscapesHTMLTags: true
+  })
   const htmlContent = converter.makeHtml(content)
 
   // Partial function that mimics Sails.js partial() behavior
